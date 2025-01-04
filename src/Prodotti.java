@@ -26,6 +26,18 @@ public abstract class Prodotti{
     public String getCodice() {
         return codice;
     }
+    public double getPrezzo() {
+        return prezzo;
+    }
+    public int getQuantità() {
+        return quantita;
+    }
+
+    public void riduciQuantità(int quantitàAcquistata) {
+        if (quantitàAcquistata <= this.quantita) {
+            this.quantita -= quantitàAcquistata;
+        }
+    }
 
     /* 
         METODI ASTRATTI
