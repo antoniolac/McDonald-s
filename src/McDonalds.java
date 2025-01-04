@@ -29,7 +29,17 @@ public class McDonalds {
         }
     }
 
-    public void acquista() {
+    public boolean ricerca(String codiceRicerca) {
+        for (Prodotti prodotto : totem) {
+            if (prodotto != null && prodotto.getCodice().equals(codiceRicerca)) {
+                return true; 
+            }
+        }
+        return false; 
+    }
+
+
+    public void acquista(String[] pCodice) {
         // Implementazione del metodo acquista
     }
 }

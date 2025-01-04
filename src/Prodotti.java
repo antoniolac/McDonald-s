@@ -14,7 +14,11 @@ public abstract class Prodotti{
         this.quantita = pQuantita;
         this.prezzo = pPrezzo;
     }
-
+    //getters and setters
+    public String getCodice() {
+        return codice;
+    }
+    
     @Override
     public String toString() {
         return "Codice: " + codice + ", Descrizione: " + descrizione + ", Categoria: " + categoria
