@@ -1,12 +1,17 @@
+//classe padre
 public abstract class Prodotti{
-    //attributi protetti
+    /* 
+        ATTRIBUTI PROTETTI
+                            */
     protected String codice;
     protected String descrizione;
     protected String categoria;
     protected int quantita;
     protected double prezzo;
 
-    //costruttori
+    /* 
+        COSTRUTTORI
+                    */
     public Prodotti(String pCodice, String pDescrizione, String pCategoria, int pQuantita, double pPrezzo) {
         this.codice = pCodice;
         this.descrizione = pDescrizione;
@@ -14,11 +19,17 @@ public abstract class Prodotti{
         this.quantita = pQuantita;
         this.prezzo = pPrezzo;
     }
-    //getters and setters
+
+    /* 
+        GETTERS AND SETTERS 
+                            */
     public String getCodice() {
         return codice;
     }
-    
+
+    /* 
+        METODI ASTRATTI
+                        */
     @Override
     public String toString() {
         return "Codice: " + codice + ", Descrizione: " + descrizione + ", Categoria: " + categoria

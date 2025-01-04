@@ -1,52 +1,19 @@
-import java.util.Scanner;
-
 public class McDonaldsTest {
+    /*
+         PROGRAMMA PRINCIPALE
+                                */
     public static void main(String[] args) {
-        //input
-        Scanner sc = new Scanner(System.in);
-        //creazione McDonald's
+        //caricamento dati test
         Prodotti[] dati = caricaDati();
+        //creazione oggetto McDonald's
         McDonalds mc = new McDonalds(dati);
-        String scelta;
-        do {
-            System.out.println("C'è un cliente? [S/N]:");
-            scelta = sc.nextLine().toLowerCase();
-            switch(scelta){
-                case "s":
-                    System.out.println("Benvenuto al McDonald's! questo è il nostro menù:");
-                    mc.stampaTotem();
-                    System.out.println("\nCosa vuoi ordinare? digita il codice dei prodotti");
-                    System.out.println("Digita 0 per terminare, puoi acquistare massimo 15 prodotti");
-                    String[] cProdotto = new String[15];
-                    boolean flag = false;
-                    int i = 0;
-                    while(!flag && i<cProdotto.length){
-                        cProdotto[i] = sc.nextLine().toUpperCase();
-                        mc.ricerca(cProdotto[i]);
-                        if (cProdotto[i].equals("0")) {
-                            flag = true;
-                        } else if (mc.ricerca(cProdotto[i])) {
-                            System.out.println("Prodotto aggiunto all'ordine.");
-                            i++;
-                        } else {
-                            System.out.println("Il prodotto non esiste, riprova.");
-                        }
-                    }
-                    mc.acquista(cProdotto);
-                    break;
-                case "n":
-                    System.out.println("exit");
-                    break;
-                default:
-                    System.out.println("errore");
-                    break;
-            }
-        } while (!scelta.equals("n"));
-        sc.close();
-
+        //chiamata al metodo
+        mc.gestioneClienti();
     }
 
-    // metodo caricaDati
+
+
+    //metodo caricaDati
     public static Prodotti[] caricaDati() {
         Prodotti[] prodotto = new Prodotti[11];
         prodotto[0] = new Panino("P001", "McChicken", 10, 5.00);
