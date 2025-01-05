@@ -4,7 +4,7 @@ public class McDonalds {
         ATTRIBUTI
                     */
     private static final int MAX = 30;
-    private Prodotti[] totem = new Prodotti[MAX];  // Inizializzazione dell'array
+    private Prodotti[] totem = new Prodotti[MAX];  
     
 
     /* 
@@ -14,7 +14,7 @@ public class McDonalds {
         // Costruttore di default
     }
     public McDonalds(Prodotti[] pDati) {
-        for (int i = 0; i < pDati.length; i++) {  // Corretto il ciclo for
+        for (int i = 0; i < pDati.length; i++) {
             this.totem[i] = pDati[i];
         }
     }
@@ -34,89 +34,111 @@ public class McDonalds {
     
     //metodo che gestisce i clienti del Mc
     public void gestioneClienti() {
-        String scelta; // input
+        String scelta; //input
         do {
-            System.out.println("C'è un cliente? [S/N]:");
+            System.out.println("\nC'è un cliente? [S/N]:");
             scelta = sc.nextLine().toLowerCase();
     
-            // gestione risposta
+            //gestione risposta
             switch (scelta) {
     
-                case "s": // se c'è un cliente
-                    System.out.println("Benvenuto al McDonald's! Questo è il nostro menù:");
-                    stampaTotem(); // stampa del menù
-                    System.out.println("\nCosa vuoi ordinare? Digita il codice dei prodotti");
-                    System.out.println("Digita 0 per terminare, puoi acquistare massimo 15 prodotti");
-                    String[] cProdotto = new String[15]; // carrello acquisti
-                    int[] quantitàProdotto = new int[15]; // array per le quantità
-                    boolean flag = false; // flag di uscita
-                    int i = 0; // contatore
-    
-                    // ciclo inserimento prodotti nel carrello
-                    while (!flag && i < cProdotto.length) {
-                        System.out.print("Inserisci il codice del prodotto: ");
-                        cProdotto[i] = sc.nextLine().toUpperCase();
-    
-                        // controllo inserimento
-                        if (cProdotto[i].equals("0")) {
-                            flag = true; // uscita ciclo
-                        } else if (myRicerca(cProdotto[i])) {
-                            // Chiedere la quantità
-                            System.out.print("Quanti pezzi desideri? ");
-                            int quantità = sc.nextInt();
-                            sc.nextLine(); // Consumi il newline lasciato da nextInt()
-    
-                            // Verifica disponibilità
-                            boolean prodottoDisponibile = false;
-                            for (Prodotti prodotto : totem) {
-                                if (prodotto != null && prodotto.getCodice().equals(cProdotto[i])) {
-                                    if (quantità <= prodotto.getQuantità()) {
-                                        prodotto.riduciQuantità(quantità); // aggiorna le rimanenze
-                                        prodottoDisponibile = true;
-                                        quantitàProdotto[i] = quantità; // salviamo la quantità
-                                        System.out.println("Prodotto aggiunto all'ordine.");
-                                    } else {
-                                        System.out.println("Quantità non disponibile. Riprova.");
-                                    }
-                                }
-                            }
-                            if (!prodottoDisponibile) {
-                                System.out.println("Il prodotto non è disponibile o il codice è errato.");
-                            }
-                            i++;
-                        } else {
-                            System.out.println("Il prodotto non esiste, riprova.");
-                        }
-                    }
-    
-                    acquista(cProdotto, quantitàProdotto); // acquisto dei prodotti scelti
+                case "s": //se c'è un cliente
+                    cliente();
                     break;
     
-                case "n": // uscita programma se non ci sono altri clienti
-                    System.out.println("Exit");
+                case "n": //uscita programma se non ci sono altri clienti
+                    System.out.println("\nGiornata conclusa, chiusura McDonald's");
                     break;
     
-                default: // errore inserimento
-                    System.out.println("Errore");
+                default: //errore inserimento
+                    System.out.println("\nErrore, inserisci l'input corretto");
                     break;
             }
-        } while (!scelta.equals("n")); // iterazione per la gestione dei clienti
+        } while (!scelta.equals("n")); //iterazione per la gestione dei clienti
     
-        sc.close(); // chiusura scanner
+        sc.close(); //chiusura scanner
     }
     
-    
+    //METODO CHE GESTISCE L'ORDINE DEL CLIENTE
+    public void cliente() {
+        System.out.println("Benvenuto al McDonald's! Questo è il nostro menù:");
+        stampaTotem(); //stampa del menù
+        System.out.println("\nCosa vuoi ordinare? Digita il codice dei prodotti");
+        System.out.println("Puoi acquistare massimo 15 prodotti, digita 0 per terminare");
+        String[] cProdotto = new String[15]; //carrello acquisti
+        int[] quantitàProdotto = new int[15]; //array per le quantità
+        boolean flag = false; //flag di uscita
+        int i = 0; //contatore
 
-    //metodo che stampa il menù
+        //ciclo inserimento prodotti nel carrello
+        while (!flag && i < cProdotto.length) {
+            System.out.print("Inserisci il codice del prodotto: ");
+            cProdotto[i] = sc.nextLine().toUpperCase();
+
+            // controllo inserimento
+            if (cProdotto[i].equals("0")) {
+                flag = true; //uscita ciclo
+            } 
+            else if (myRicerca(cProdotto[i])) {
+                //quantità
+                boolean quantitàValida = false;
+                int quantità = 0;
+                while (!quantitàValida) {
+                    System.out.print("Quanti pezzi desideri? ");
+                    if (sc.hasNextInt()) {
+                        quantità = sc.nextInt();
+                        sc.nextLine(); // Consuma il newline lasciato da nextInt()
+                        if (quantità > 0) {
+                            quantitàValida = true; // Input valido
+                        } else {
+                            System.out.println("La quantità deve essere maggiore di 0. Riprova.");
+                        }
+                    } else {
+                        System.out.println("Per favore, inserisci un numero valido.");
+                        sc.nextLine(); // Consuma l'input non valido
+                    }
+                }
+
+                //verifica disponibilità
+                boolean prodottoDisponibile = false;
+                for (Prodotti prodotto : totem) {
+                    if (prodotto != null && prodotto.getCodice().equals(cProdotto[i])) {
+                        if (quantità <= prodotto.getQuantità() && quantità > 0) {
+                            prodotto.riduciQuantità(quantità); //aggiorna le rimanenze
+                            prodottoDisponibile = true;
+                            quantitàProdotto[i] = quantità; //salviamo la quantità
+                            System.out.println("Prodotto aggiunto all'ordine.");
+                        }
+                        else {
+                            System.out.println("Quantità non disponibile. Riprova.");
+                        }
+                    }
+                }
+                if (!prodottoDisponibile) {
+                    System.out.println("Il prodotto non è disponibile o il codice è errato.");
+                }
+                i++;
+            }
+            else {
+                System.out.println("Il prodotto non esiste, riprova.");
+            }
+        }
+
+        acquista(cProdotto, quantitàProdotto); //acquisto dei prodotti scelti        
+    }
+
+
+    //METODO CHE STAMPA IL MENU'
     public void stampaTotem() {
-        Prodotti[] array = getTotem();  // Non serve dichiararlo private
+        Prodotti[] array = getTotem();  
         for (Prodotti elemento : array) {
             if (elemento != null) {
                 System.out.println(elemento);
             }
         }
     }
-    //metodo di myRicerca 
+
+    //METODO DI RICERCA
     public boolean myRicerca(String codicemyRicerca) {
         for (Prodotti prodotto : totem) {
             if (prodotto != null && prodotto.getCodice().equals(codicemyRicerca)) {
@@ -126,7 +148,7 @@ public class McDonalds {
         return false; 
     }
 
-    //metodo che gestisce l'acquisto dei prodotti
+    //METODO PER L'ACQUISTO DI PRODOTTI
     public void acquista(String[] pCodice, int[] pQuantità) {
         double totale = 0.0; // Totale del costo dei prodotti
     
@@ -135,7 +157,7 @@ public class McDonalds {
             if (pCodice[i] != null && !pCodice[i].equals("0")) {
                 for (Prodotti prodotto : totem) {
                     if (prodotto != null && prodotto.getCodice().equals(pCodice[i])) {
-                        totale += prodotto.getPrezzo() * pQuantità[i]; // Prezzo * quantità
+                        totale += prodotto.getPrezzo() * pQuantità[i]; 
                     }
                 }
             }
@@ -143,7 +165,7 @@ public class McDonalds {
     
         System.out.printf("Il totale del tuo ordine è: %.2f euro.\n", totale);
     
-        // Gestione del pagamento
+        //gestione del pagamento
         double importoInserito = 0.0;
         boolean pagamentoCompletato = false;
     
@@ -165,14 +187,13 @@ public class McDonalds {
                 }
             } else {
                 System.out.println("Errore: inserisci un importo valido.");
-                sc.next(); // Consuma l'input errato
+                sc.next(); //Consuma l'input errato
             }
-    
-            // Consuma il newline lasciato da nextDouble()
-            sc.nextLine(); // Importante!
+
+            sc.nextLine(); //Consuma il newline lasciato da nextDouble()
         }
     
-        // Calcolo del resto
+        //calcolo del resto
         double resto = importoInserito - totale;
         if (resto > 0) {
             System.out.printf("Grazie per l'acquisto! Il tuo resto è: %.2f euro.\n", resto);
@@ -180,4 +201,4 @@ public class McDonalds {
             System.out.println("Grazie per l'acquisto!");
         }
     }
-}    
+} 

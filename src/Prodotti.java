@@ -33,9 +33,10 @@ public abstract class Prodotti{
         return quantita;
     }
 
-    public void riduciQuantità(int quantitàAcquistata) {
-        if (quantitàAcquistata <= this.quantita) {
-            this.quantita -= quantitàAcquistata;
+    //metodi
+    public void riduciQuantità(int quantitaAcquistata) {
+        if (quantitaAcquistata <= this.quantita && quantitaAcquistata >0) {
+            this.quantita -= quantitaAcquistata;
         }
     }
 
