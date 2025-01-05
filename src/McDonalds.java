@@ -43,6 +43,8 @@ public class McDonalds {
             switch (scelta) {
     
                 case "s": //se c'è un cliente
+                    System.out.println("Benvenuto al McDonald's! Questo è il nostro menù:");
+                    stampaTotem(); //stampa del menù
                     cliente();
                     break;
     
@@ -61,8 +63,6 @@ public class McDonalds {
     
     //METODO CHE GESTISCE L'ORDINE DEL CLIENTE
     public void cliente() {
-        System.out.println("Benvenuto al McDonald's! Questo è il nostro menù:");
-        stampaTotem(); //stampa del menù
         System.out.println("\nCosa vuoi ordinare? Digita il codice dei prodotti");
         System.out.println("Puoi acquistare massimo 15 prodotti, digita 0 per terminare");
         String[] cProdotto = new String[15]; //carrello acquisti
@@ -100,12 +100,10 @@ public class McDonalds {
                 }
 
                 //verifica disponibilità
-                boolean prodottoDisponibile = false;
                 for (Prodotti prodotto : totem) {
                     if (prodotto != null && prodotto.getCodice().equals(cProdotto[i])) {
                         if (quantità <= prodotto.getQuantità() && quantità > 0) {
                             prodotto.riduciQuantità(quantità); //aggiorna le rimanenze
-                            prodottoDisponibile = true;
                             quantitàProdotto[i] = quantità; //salviamo la quantità
                             System.out.println("Prodotto aggiunto all'ordine.");
                         }
@@ -113,9 +111,6 @@ public class McDonalds {
                             System.out.println("Quantità non disponibile. Riprova.");
                         }
                     }
-                }
-                if (!prodottoDisponibile) {
-                    System.out.println("Il prodotto non è disponibile o il codice è errato.");
                 }
                 i++;
             }
@@ -172,10 +167,10 @@ public class McDonalds {
         while (!pagamentoCompletato) {
             System.out.print("Inserisci il denaro (euro): ");
             if (sc.hasNextDouble()) {
-                double input = sc.nextDouble();
+                double pagamento = sc.nextDouble();
     
-                if (input > 0) {
-                    importoInserito += input;
+                if (pagamento > 0) {
+                    importoInserito += pagamento;
                     if (importoInserito >= totale) {
                         pagamentoCompletato = true;
                     } else {
