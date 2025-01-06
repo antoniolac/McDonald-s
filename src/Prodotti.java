@@ -33,17 +33,15 @@ public abstract class Prodotti{
         return quantita;
     }
 
-    //metodi
+    /* 
+        METODI
+                */
     public void riduciQuantità(int quantitaAcquistata) {
         if (quantitaAcquistata <= this.quantita && quantitaAcquistata >0) {
             this.quantita -= quantitaAcquistata;
         }
     }
 
-    /* 
-        METODI ASTRATTI
-                        */
-    @Override
     public String toString() {
         return "Codice: " + codice + ", Descrizione: " + descrizione + ", Categoria: " + categoria
                 + ", Quantità: " + quantita + ", Prezzo: " + prezzo;

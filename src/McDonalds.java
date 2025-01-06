@@ -81,21 +81,21 @@ public class McDonalds {
             } 
             else if (myRicerca(cProdotto[i])) {
                 //quantità
-                boolean quantitàValida = false;
+                boolean quantitàV = false;
                 int quantità = 0;
-                while (!quantitàValida) {
-                    System.out.print("Quanti pezzi desideri? ");
+                while (!quantitàV) {
+                    System.out.print("Quante unità vuoi acquistare? ");
                     if (sc.hasNextInt()) {
                         quantità = sc.nextInt();
                         sc.nextLine(); // Consuma il newline lasciato da nextInt()
                         if (quantità > 0) {
-                            quantitàValida = true; // Input valido
+                            quantitàV = true; 
                         } else {
                             System.out.println("La quantità deve essere maggiore di 0. Riprova.");
                         }
                     } else {
                         System.out.println("Per favore, inserisci un numero valido.");
-                        sc.nextLine(); // Consuma l'input non valido
+                        sc.nextLine(); //Consuma l'input non valido
                     }
                 }
 
@@ -104,11 +104,11 @@ public class McDonalds {
                     if (prodotto != null && prodotto.getCodice().equals(cProdotto[i])) {
                         if (quantità <= prodotto.getQuantità() && quantità > 0) {
                             prodotto.riduciQuantità(quantità); //aggiorna le rimanenze
-                            quantitàProdotto[i] = quantità; //salviamo la quantità
+                            quantitàProdotto[i] = quantità;
                             System.out.println("Prodotto aggiunto all'ordine.");
                         }
                         else {
-                            System.out.println("Quantità non disponibile. Riprova.");
+                            System.out.println("Quantità non disponibile. riprova.");
                         }
                     }
                 }
@@ -134,9 +134,9 @@ public class McDonalds {
     }
 
     //METODO DI RICERCA
-    public boolean myRicerca(String codicemyRicerca) {
+    public boolean myRicerca(String codice) {
         for (Prodotti prodotto : totem) {
-            if (prodotto != null && prodotto.getCodice().equals(codicemyRicerca)) {
+            if (prodotto != null && prodotto.getCodice().equals(codice)) {
                 return true; 
             }
         }
@@ -158,29 +158,32 @@ public class McDonalds {
             }
         }
     
-        System.out.printf("Il totale del tuo ordine è: %.2f euro.\n", totale);
+        System.out.printf("\nIl totale del tuo ordine è: %.2f euro.\n", totale);
     
         //gestione del pagamento
-        double importoInserito = 0.0;
-        boolean pagamentoCompletato = false;
+        double importo = 0.0;
+        boolean pagamentoV = false;
     
-        while (!pagamentoCompletato) {
-            System.out.print("Inserisci il denaro (euro): ");
+        while (!pagamentoV) {
+            System.out.print("Inserisci importo (euro): ");
             if (sc.hasNextDouble()) {
                 double pagamento = sc.nextDouble();
     
                 if (pagamento > 0) {
-                    importoInserito += pagamento;
-                    if (importoInserito >= totale) {
-                        pagamentoCompletato = true;
-                    } else {
-                        System.out.printf("Hai inserito %.2f euro. Mancano ancora %.2f euro.\n",
-                                importoInserito, totale - importoInserito);
+                    importo += pagamento;
+                    if (importo >= totale) {
+                        pagamentoV = true;
                     }
-                } else {
+                    else {
+                        System.out.printf("Hai inserito %.2f euro. Mancano ancora %.2f euro.\n",
+                        importo, totale - importo);
+                    }
+                }
+                else {
                     System.out.println("Devi inserire un importo maggiore di 0. Riprova.");
                 }
-            } else {
+            } 
+            else {
                 System.out.println("Errore: inserisci un importo valido.");
                 sc.next(); //Consuma l'input errato
             }
@@ -189,10 +192,11 @@ public class McDonalds {
         }
     
         //calcolo del resto
-        double resto = importoInserito - totale;
+        double resto = importo - totale;
         if (resto > 0) {
             System.out.printf("Grazie per l'acquisto! Il tuo resto è: %.2f euro.\n", resto);
-        } else {
+        }
+        else {
             System.out.println("Grazie per l'acquisto!");
         }
     }
