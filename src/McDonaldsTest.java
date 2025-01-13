@@ -10,7 +10,6 @@ public class McDonaldsTest {
         //chiamata al metodo
         mc.gestioneClienti();
     }
-
     //metodo caricaDati
     public static Prodotti[] caricaDati() {
         Prodotti[] prodotto = new Prodotti[11];
